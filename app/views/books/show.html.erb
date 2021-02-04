@@ -2,7 +2,7 @@
   <div class='row'>
     <div class='col-md-3'>
       <h2>User info</h2>
-      <%= render 'users/info', user: current_user %>
+      <%= render 'users/info', user: @book.user %>
       <h2 class="mt-3">New book</h2>
       <%= render 'form', book: @newbook %>
     </div>
@@ -15,7 +15,12 @@
             <%= @book.user.name %>
             <% end %>
           </td>
-          <td><%= link_to @book.title, book_path(@book) %></td>
+          <td><% if @book.user_id == current_user.id %>
+                <%= link_to @book.title, book_path(@book) %>
+              <% else %>
+                <%= link_to @book.title, books_path %>
+              <% end %>
+          </td>
           <td><%= @book.body %></td>
           <% if @book.user_id == current_user.id %>
             <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success edit_book_#{@book.id}" %></td>
