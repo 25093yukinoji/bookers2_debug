@@ -9,7 +9,7 @@ class User < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :favorited_books, through: :favorites, source: :book
   #コメント機能
-  has_many :book_comments, dependent: :
+  has_many :book_comments, dependent: :destroy
   #フォロー機能
   has_many :relationships
   has_many :followings, through: :relationships, source: :follow
