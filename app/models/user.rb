@@ -21,18 +21,15 @@ class User < ApplicationRecord
   end
   #フォロー機能
   def following?(other_user)
-    self.followings.include?(other_user)
+    following_relationships.find_by(following_id: other_user.id)
   end
 
-  def follow(other_user)
-    unless self == other_user
-      self.relationships.find_or_create_by(following_id: other_user.id)
-    end
+  def follow!(other_user)
+    following_relationships.create!(following_id: other_user.id)
   end
 
-  def unfollow(other_user)
-    relationship = self.relationships.find_by(following_id: other_user.id)
-    relationship.destroy if relationship
+  def unfollow!(other_user)
+    following_relationships.find_by(following_id: other_user.id).destroy
   end
 
   attachment :profile_image, destroy: false
